@@ -1,35 +1,51 @@
-def is_safe(processes, avail, maxm, allot):
-    n = len(processes)
-    m = len(avail)
-    need = [[maxm[i][j] - allot[i][j] for j in range(m)] for i in range(n)]
+def bankers_algorithm():
+    n = int(input("Enter number of processes: "))
+    m = int(input("Enter number of resources: "))
+
+    allocation = []
+    maxm = []
+    available = []
+
+    print("\nEnter Allocation Matrix:")
+    for i in range(n):
+        allocation.append(list(map(int, input().split())))
+
+    print("\nEnter Max Matrix:")
+    for i in range(n):
+        maxm.append(list(map(int, input().split())))
+
+    print("\nEnter Available Resources:")
+    available = list(map(int, input().split()))
+
+    # Calculate Need Matrix = Max - Allocation
+    need = [[maxm[i][j] - allocation[i][j] for j in range(m)] for i in range(n)]
+
     finish = [False] * n
     safe_seq = []
-    work = avail.copy()
+    count = 0
 
-    while len(safe_seq) < n:
+    while count < n:
+        found = False
         for i in range(n):
-            if not finish[i] and all(need[i][j] <= work[j] for j in range(m)):
-                work = [work[j] + allot[i][j] for j in range(m)]
-                finish[i] = True
-                safe_seq.append(i)
-                break
-        else:
-            print("System is not in a safe state")
-            return False
-    print("Safe sequence:", safe_seq)
-    return True
+            if not finish[i]:
+                if all(need[i][j] <= available[j] for j in range(m)):
+                    for k in range(m):
+                        available[k] += allocation[i][k]
+                    safe_seq.append(i)
+                    finish[i] = True
+                    count += 1
+                    found = True
+        if not found:
+            break
 
-# Test
-processes = [0, 1, 2, 3, 4]
-avail = [3, 3, 2]
-maxm = [[7, 5, 3],
-        [3, 2, 2],
-        [9, 0, 2],
-        [2, 2, 2],
-        [4, 3, 3]]
-allot = [[0, 1, 0],
-         [2, 0, 0],
-         [3, 0, 2],
-         [2, 1, 1],
-         [0, 0, 2]]
-is_safe(processes, avail, maxm, allot)
+    if count != n:
+        print("\nDeadlock detected! (ডেডলক হয়েছে!)")
+    else:
+        print("\nSafe Sequence (সেফ সিকোয়েন্স): ", end="")
+        for p in safe_seq:
+            print(f"P{p}", end=" ")
+        print()
+
+
+# Run the function
+bankers_algorithm()
