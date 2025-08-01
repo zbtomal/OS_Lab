@@ -1,46 +1,34 @@
-def first_fit(blocks, processes):
-    print("First Fit:")
-    allocation = [-1] * len(processes)
-    for i, p in enumerate(processes):
-        for j, b in enumerate(blocks):
-            if b >= p:
-                allocation[i] = j
-                blocks[j] -= p
-                break
-    for i, a in enumerate(allocation):
-        print(f"Process {i} -> Block {a if a != -1 else 'Not Allocated'}")
+def first_fit(holes, process_size):
+    for hole in holes:
+        if hole >= process_size:
+            print(f"First Fit: {hole}k")
+            return
+    print("Wait Please, Don't have sufficient space")
 
-def best_fit(blocks, processes):
-    print("\nBest Fit:")
-    allocation = [-1] * len(processes)
-    for i, p in enumerate(processes):
-        best = -1
-        for j, b in enumerate(blocks):
-            if b >= p and (best == -1 or b < blocks[best]):
-                best = j
-        if best != -1:
-            allocation[i] = best
-            blocks[best] -= p
-    for i, a in enumerate(allocation):
-        print(f"Process {i} -> Block {a if a != -1 else 'Not Allocated'}")
 
-def worst_fit(blocks, processes):
-    print("\nWorst Fit:")
-    allocation = [-1] * len(processes)
-    for i, p in enumerate(processes):
-        worst = -1
-        for j, b in enumerate(blocks):
-            if b >= p and (worst == -1 or b > blocks[worst]):
-                worst = j
-        if worst != -1:
-            allocation[i] = worst
-            blocks[worst] -= p
-    for i, a in enumerate(allocation):
-        print(f"Process {i} -> Block {a if a != -1 else 'Not Allocated'}")
+def best_fit(holes, process_size):
+    holes.sort()
+    for hole in holes:
+        if hole >= process_size:
+            print(f"Best Fit: {hole}k")
+            return
+    print("Wait Please, Don't have sufficient space")
 
-# Test
-blocks = [100, 500, 200, 300, 600]
-processes = [212, 417, 112, 426]
-first_fit(blocks[:], processes)
-best_fit(blocks[:], processes)
-worst_fit(blocks[:], processes)
+
+def worst_fit(holes, process_size):
+    holes.sort(reverse=True)
+    if process_size <= holes[0]:
+        print(f"Worst Fit: {holes[0]}k")
+    else:
+        print("Wait Please, Don't have sufficient space")
+
+
+# Main Logic
+n = int(input("Enter the number of Holes available: "))
+holes = list(map(int, input("Enter the Hole Sizes: ").split()))
+
+process_size = int(input("Enter process size: "))
+
+first_fit(holes[:], process_size)   # use holes[:] to pass a copy
+best_fit(holes[:], process_size)
+worst_fit(holes[:], process_size)
