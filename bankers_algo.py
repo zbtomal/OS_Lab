@@ -39,9 +39,9 @@ def bankers_algorithm():
             break
 
     if count != n:
-        print("\nDeadlock detected! (ডেডলক হয়েছে!)")
+        print("\nDeadlock detected!")
     else:
-        print("\nSafe Sequence (সেফ সিকোয়েন্স): ", end="")
+        print("\nSafe Sequence: ", end="")
         for p in safe_seq:
             print(f"P{p}", end=" ")
         print()
