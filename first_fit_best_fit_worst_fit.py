@@ -3,7 +3,7 @@ def first_fit(holes, process_size):
         if hole >= process_size:
             print(f"First Fit: {hole}k")
             return
-    print("Wait Please, Don't have sufficient space")
+    print("Hey wait, you don't have sufficient space")
 
 
 def best_fit(holes, process_size):
@@ -12,7 +12,7 @@ def best_fit(holes, process_size):
         if hole >= process_size:
             print(f"Best Fit: {hole}k")
             return
-    print("Wait Please, Don't have sufficient space")
+    print("Hey wait, you don't have sufficient space")
 
 
 def worst_fit(holes, process_size):
@@ -20,11 +20,10 @@ def worst_fit(holes, process_size):
     if process_size <= holes[0]:
         print(f"Worst Fit: {holes[0]}k")
     else:
-        print("Wait Please, Don't have sufficient space")
-
+        print("Hey wait, you don't have sufficient space")
 
 # Main Logic
-n = int(input("Enter the number of Holes available: "))
+n = input("Enter the number of Holes available: ")
 holes = list(map(int, input("Enter the Hole Sizes: ").split()))
 
 process_size = int(input("Enter process size: "))
